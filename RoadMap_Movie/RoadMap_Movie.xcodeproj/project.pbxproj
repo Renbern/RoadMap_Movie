@@ -7,23 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		044A3C952908475E00E637D7 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A3C942908475E00E637D7 /* MovieTableViewCell.swift */; };
+		044A3C982908715900E637D7 /* URLSession+Extenssion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A3C972908715900E637D7 /* URLSession+Extenssion.swift */; };
 		0483E1B32906E8CC0078F4B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0483E1B22906E8CC0078F4B2 /* AppDelegate.swift */; };
 		0483E1B52906E8CC0078F4B2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0483E1B42906E8CC0078F4B2 /* SceneDelegate.swift */; };
-		0483E1B72906E8CC0078F4B2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0483E1B62906E8CC0078F4B2 /* ViewController.swift */; };
+		0483E1B72906E8CC0078F4B2 /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0483E1B62906E8CC0078F4B2 /* MainScreenViewController.swift */; };
 		0483E1BA2906E8CC0078F4B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0483E1B82906E8CC0078F4B2 /* Main.storyboard */; };
 		0483E1BC2906E8CE0078F4B2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0483E1BB2906E8CE0078F4B2 /* Assets.xcassets */; };
 		0483E1BF2906E8CE0078F4B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0483E1BD2906E8CE0078F4B2 /* LaunchScreen.storyboard */; };
+		0483E1EB29070EC40078F4B2 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0483E1EA29070EC40078F4B2 /* Movie.swift */; };
+		04CFD88C2908894300487CCD /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CFD88B2908894300487CCD /* UIImageView+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		044A3C942908475E00E637D7 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
+		044A3C972908715900E637D7 /* URLSession+Extenssion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extenssion.swift"; sourceTree = "<group>"; };
 		0483E1AF2906E8CC0078F4B2 /* RoadMap_Movie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoadMap_Movie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0483E1B22906E8CC0078F4B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0483E1B42906E8CC0078F4B2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0483E1B62906E8CC0078F4B2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0483E1B62906E8CC0078F4B2 /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		0483E1B92906E8CC0078F4B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0483E1BB2906E8CE0078F4B2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0483E1BE2906E8CE0078F4B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0483E1C02906E8CE0078F4B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0483E1EA29070EC40078F4B2 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		04CFD88B2908894300487CCD /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +45,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		044A3C962908712F00E637D7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				044A3C972908715900E637D7 /* URLSession+Extenssion.swift */,
+				04CFD88B2908894300487CCD /* UIImageView+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		0483E1A62906E8CC0078F4B2 = {
 			isa = PBXGroup;
 			children = (
@@ -58,11 +75,14 @@
 			children = (
 				0483E1B22906E8CC0078F4B2 /* AppDelegate.swift */,
 				0483E1B42906E8CC0078F4B2 /* SceneDelegate.swift */,
-				0483E1B62906E8CC0078F4B2 /* ViewController.swift */,
+				0483E1B62906E8CC0078F4B2 /* MainScreenViewController.swift */,
+				0483E1EA29070EC40078F4B2 /* Movie.swift */,
+				044A3C942908475E00E637D7 /* MovieTableViewCell.swift */,
 				0483E1B82906E8CC0078F4B2 /* Main.storyboard */,
 				0483E1BB2906E8CE0078F4B2 /* Assets.xcassets */,
 				0483E1BD2906E8CE0078F4B2 /* LaunchScreen.storyboard */,
 				0483E1C02906E8CE0078F4B2 /* Info.plist */,
+				044A3C962908712F00E637D7 /* Extensions */,
 			);
 			path = RoadMap_Movie;
 			sourceTree = "<group>";
@@ -179,8 +199,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0483E1B72906E8CC0078F4B2 /* ViewController.swift in Sources */,
+				044A3C952908475E00E637D7 /* MovieTableViewCell.swift in Sources */,
+				0483E1B72906E8CC0078F4B2 /* MainScreenViewController.swift in Sources */,
+				04CFD88C2908894300487CCD /* UIImageView+Extension.swift in Sources */,
+				044A3C982908715900E637D7 /* URLSession+Extenssion.swift in Sources */,
 				0483E1B32906E8CC0078F4B2 /* AppDelegate.swift in Sources */,
+				0483E1EB29070EC40078F4B2 /* Movie.swift in Sources */,
 				0483E1B52906E8CC0078F4B2 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
