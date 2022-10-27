@@ -11,18 +11,30 @@ final class MainScreenViewController: UIViewController {
         enum MovieSections {
             static let topRated = "Высокий рейтинг"
             static let popular = "Популярное"
-            static let actual = "Актуально"
+            static let actual = "Скоро"
         }
 
-        enum URL {
+        enum SectionURL {
             static let topRatedURL =
                 "https://api.themoviedb.org/3/movie/top_rated?api_key=5cc552e34f7eb492b6f65e0e324d397b&language=ru-RU"
-            static let popularURL = "https://api.themoviedb.org/3/movie/popular?api_key=<<api_key>>&language=ru-RU"
-            static let actualURL = "https://api.themoviedb.org/3/movie/latest?api_key=<<api_key>>&language=ru-RU"
+            static let popularURL =
+                "https://api.themoviedb.org/3/movie/popular?api_key=5cc552e34f7eb492b6f65e0e324d397b&language=ru-RU"
+            static let actualURL =
+                "https://api.themoviedb.org/3/movie/upcoming?api_key=5cc552e34f7eb492b6f65e0e324d397b&language=ru-RU"
+        }
+
+        enum Colors {
+            static let red = "redMark"
+            static let orange = "orangeMark"
+            static let green = "greenMark"
+            static let blue = "blueButton"
+            static let gray = "grayForUI"
         }
 
         static let movieCell = "movieCell"
         static let error = "error"
+        static let screenTitle = "Movie"
+        static let detailScreenTitle = "Details"
     }
 
     // MARK: - Private properties
@@ -35,13 +47,12 @@ final class MainScreenViewController: UIViewController {
     // MARK: - Private visual elements
 
     private let tableView = UITableView()
-    private let movieImageView = UIImageView()
     private lazy var selectTopRatedMoviesListButton: UIButton = {
         let button = UIButton()
         button.setTitle(Constants.MovieSections.topRated, for: .normal)
         button.tag = 0
         button.titleLabel?.font = .systemFont(ofSize: 12, weight: .semibold)
-        button.backgroundColor = .systemPurple
+        button.backgroundColor = UIColor(named: Constants.Colors.blue)
         button.addTarget(self, action: #selector(changeMoviesListAction), for: .touchUpInside)
         return button
     }()
@@ -51,7 +62,7 @@ final class MainScreenViewController: UIViewController {
         button.setTitle(Constants.MovieSections.popular, for: .normal)
         button.tag = 1
         button.titleLabel?.font = .systemFont(ofSize: 12, weight: .semibold)
-        button.backgroundColor = .systemPurple
+        button.backgroundColor = UIColor(named: Constants.Colors.blue)
         button.addTarget(self, action: #selector(changeMoviesListAction), for: .touchUpInside)
         return button
     }()
@@ -61,7 +72,7 @@ final class MainScreenViewController: UIViewController {
         button.setTitle(Constants.MovieSections.actual, for: .normal)
         button.tag = 2
         button.titleLabel?.font = .systemFont(ofSize: 12, weight: .semibold)
-        button.backgroundColor = .systemPurple
+        button.backgroundColor = UIColor(named: Constants.Colors.blue)
         button.addTarget(self, action: #selector(changeMoviesListAction), for: .touchUpInside)
         return button
     }()
@@ -70,10 +81,6 @@ final class MainScreenViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
-        obtainMovies(
-            url: Constants.URL.topRatedURL
-        )
         setupUI()
     }
 
@@ -82,19 +89,22 @@ final class MainScreenViewController: UIViewController {
     @objc private func changeMoviesListAction(_ sender: UIButton) {
         switch sender.tag {
         case 0:
-            obtainMovies(
-                url: Constants.URL.topRatedURL
-            )
+            obtainMovies(sectionUrl: Constants.SectionURL.topRatedURL)
         case 1:
-            obtainMovies(url: Constants.URL.popularURL)
+            obtainMovies(sectionUrl: Constants.SectionURL.popularURL)
         case 2:
-            obtainMovies(url: Constants.URL.actualURL)
+            obtainMovies(sectionUrl: Constants.SectionURL.actualURL)
         default:
             return
         }
     }
 
     private func setupUI() {
+        title = Constants.screenTitle
+        setupTableView()
+        obtainMovies(
+            sectionUrl: Constants.SectionURL.topRatedURL
+        )
         view.addSubview(selectTopRatedMoviesListButton)
         view.addSubview(selectPopularMoviesListButton)
         view.addSubview(selectLatestMoviesListButton)
@@ -135,10 +145,10 @@ final class MainScreenViewController: UIViewController {
         tableView.register(MovieTableViewCell.self, forCellReuseIdentifier: Constants.movieCell)
     }
 
-    private func obtainMovies(url: String) {
+    private func obtainMovies(sectionUrl: String) {
         guard let url =
             URL(
-                string: url
+                string: sectionUrl
             ) else { return }
         URLSession.shared.fetchData(at: url) { result in
             switch result {
@@ -152,6 +162,8 @@ final class MainScreenViewController: UIViewController {
             }
         }
     }
+
+    private func obtainExactMovieAction(_ model: Movies) {}
 }
 
 // MARK: - UITableViewDataSource
@@ -167,6 +179,14 @@ extension MainScreenViewController: UITableViewDataSource, UITableViewDelegate {
         else { return UITableViewCell() }
         guard let movie = movies?.results[indexPath.row] else { return UITableViewCell() }
         cell.setupCell(movie)
+        cell.setMarkColor(movie)
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movieId = movies?.results[indexPath.row].id
+        let detailsViewController = MovieDetailViewController()
+        detailsViewController.movieId = movieId
+        navigationController?.pushViewController(detailsViewController, animated: true)
     }
 }

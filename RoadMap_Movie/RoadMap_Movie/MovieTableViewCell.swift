@@ -5,13 +5,21 @@ import UIKit
 
 /// Ячейка фильма
 final class MovieTableViewCell: UITableViewCell {
-    
     // MARK: - Constants
+
     private enum Constants {
-        static let baseURL = "https://image.tmdb.org/t/p/w200/"
+        static let baseURL = "https://image.tmdb.org/t/p/w200"
         static let stringFormat = "%.1f"
+
+        enum Colors {
+            static let red = "redMark"
+            static let orange = "orangeMark"
+            static let green = "greenMark"
+            static let blue = "blueButton"
+            static let gray = "grayForUI"
+        }
     }
-    
+
     // MARK: - Private visual elements
 
     private let movieTitleLabel: UILabel = {
@@ -22,9 +30,7 @@ final class MovieTableViewCell: UITableViewCell {
 
     private let markLabel: UILabel = {
         let mark = UILabel()
-        mark.backgroundColor = .systemGreen
-        mark.alpha = 0.8
-        mark.layer.cornerRadius = 25
+        mark.layer.cornerRadius = 15
         mark.clipsToBounds = true
         mark.textAlignment = .center
         mark.font = .systemFont(ofSize: 15, weight: .semibold)
@@ -42,9 +48,9 @@ final class MovieTableViewCell: UITableViewCell {
     private let overviewLabel: UILabel = {
         let overview = UILabel()
         overview.lineBreakMode = .byWordWrapping
-        overview.numberOfLines = 0
+        overview.numberOfLines = 4
         overview.font = .systemFont(ofSize: 12)
-        overview.textAlignment = .justified
+        overview.textAlignment = .left
         return overview
     }()
 
@@ -70,12 +76,14 @@ final class MovieTableViewCell: UITableViewCell {
     // MARK: - Private methods
 
     private func setupConstraints() {
+        let constraint = overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
+        constraint.priority = UILayoutPriority(999)
         NSLayoutConstraint.activate([
             posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             posterImageView.heightAnchor.constraint(equalToConstant: 200),
             posterImageView.widthAnchor.constraint(equalToConstant: 150),
-            posterImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
+            posterImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
 
             movieTitleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 15),
             movieTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
@@ -84,14 +92,13 @@ final class MovieTableViewCell: UITableViewCell {
 
             overviewLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 15),
             overviewLabel.topAnchor.constraint(equalTo: movieTitleLabel.bottomAnchor, constant: 5),
-            overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            constraint,
             overviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
 
-            markLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: -55),
-            markLabel.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: -5),
-            markLabel.heightAnchor.constraint(equalToConstant: 50),
-            markLabel.widthAnchor.constraint(equalToConstant: 50),
-
+            markLabel.topAnchor.constraint(equalTo: movieTitleLabel.bottomAnchor, constant: 5),
+            markLabel.leadingAnchor.constraint(equalTo: movieTitleLabel.leadingAnchor, constant: 10),
+            markLabel.heightAnchor.constraint(equalToConstant: 30),
+            markLabel.widthAnchor.constraint(equalToConstant: 30),
         ])
     }
 
@@ -101,8 +108,23 @@ final class MovieTableViewCell: UITableViewCell {
         movieTitleLabel.text = movie.title
         overviewLabel.text = movie.overview
         guard let imageURL = URL(string: Constants.baseURL + "\(movie.poster)") else { return }
+        print(imageURL)
         posterImageView.load(url: imageURL)
-        let movieRating = String(format: Constants.stringFormat, movie.mark)
-        markLabel.text = movieRating
+        let movieMark = String(format: Constants.stringFormat, movie.mark)
+        markLabel.text = movieMark
+    }
+
+    func setMarkColor(_ movie: Movies) {
+        let movieRating = movie.mark
+        switch movieRating {
+        case 0.1 ... 5.9:
+            markLabel.backgroundColor = .systemRed
+        case 6 ... 8:
+            markLabel.backgroundColor = .systemOrange
+        case 8.1 ... 10:
+            markLabel.backgroundColor = .systemGreen
+        default:
+            markLabel.backgroundColor = .gray
+        }
     }
 }
