@@ -14,39 +14,25 @@ final class MainScreenViewController: UIViewController {
             static let actual = "Скоро"
         }
 
-        enum SectionURL {
-            static let topRatedURL =
-                "https://api.themoviedb.org/3/movie/top_rated?api_key=5cc552e34f7eb492b6f65e0e324d397b&language=ru-RU"
-            static let popularURL =
-                "https://api.themoviedb.org/3/movie/popular?api_key=5cc552e34f7eb492b6f65e0e324d397b&language=ru-RU"
-            static let actualURL =
-                "https://api.themoviedb.org/3/movie/upcoming?api_key=5cc552e34f7eb492b6f65e0e324d397b&language=ru-RU"
-        }
-
         enum Colors {
             static let red = "redMark"
             static let orange = "orangeMark"
             static let green = "greenMark"
             static let blue = "blueButton"
             static let gray = "grayForUI"
+            static let lightBlue = "lightBlue"
         }
 
         static let movieCell = "movieCell"
         static let error = "error"
         static let screenTitle = "Movie"
         static let detailScreenTitle = "Details"
+        static let ruLanguageImage = "ru"
+        static let enLanguageImage = "en"
     }
-
-    // MARK: - Private properties
-
-    private let sessionConfiguration = URLSessionConfiguration.default
-    private let decoder = JSONDecoder()
-    private let session = URLSession.shared
-    private var movies: Results?
 
     // MARK: - Private visual elements
 
-    private let tableView = UITableView()
     private lazy var selectTopRatedMoviesListButton: UIButton = {
         let button = UIButton()
         button.setTitle(Constants.MovieSections.topRated, for: .normal)
@@ -77,6 +63,15 @@ final class MainScreenViewController: UIViewController {
         return button
     }()
 
+    private let tableView = UITableView()
+
+    // MARK: - Private properties
+
+    private let sessionConfiguration = URLSessionConfiguration.default
+    private let decoder = JSONDecoder()
+    private let session = URLSession.shared
+    private var movies: Results?
+
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -89,11 +84,20 @@ final class MainScreenViewController: UIViewController {
     @objc private func changeMoviesListAction(_ sender: UIButton) {
         switch sender.tag {
         case 0:
-            obtainMovies(sectionUrl: Constants.SectionURL.topRatedURL)
+            obtainMovies(
+                sectionUrl: UrlRequest.baseURL + UrlRequest.topRated + UrlRequest.apiKey + UrlRequest
+                    .ruLanguage
+            )
         case 1:
-            obtainMovies(sectionUrl: Constants.SectionURL.popularURL)
+            obtainMovies(
+                sectionUrl: UrlRequest.baseURL + UrlRequest.popularURL + UrlRequest.apiKey + UrlRequest
+                    .ruLanguage
+            )
         case 2:
-            obtainMovies(sectionUrl: Constants.SectionURL.actualURL)
+            obtainMovies(
+                sectionUrl: UrlRequest.baseURL + UrlRequest.actualURL + UrlRequest.apiKey + UrlRequest
+                    .ruLanguage
+            )
         default:
             return
         }
@@ -103,7 +107,7 @@ final class MainScreenViewController: UIViewController {
         title = Constants.screenTitle
         setupTableView()
         obtainMovies(
-            sectionUrl: Constants.SectionURL.topRatedURL
+            sectionUrl: UrlRequest.baseURL + UrlRequest.topRated + UrlRequest.apiKey + UrlRequest.ruLanguage
         )
         view.addSubview(selectTopRatedMoviesListButton)
         view.addSubview(selectPopularMoviesListButton)
@@ -129,14 +133,15 @@ final class MainScreenViewController: UIViewController {
             selectLatestMoviesListButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             selectLatestMoviesListButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.33),
             selectLatestMoviesListButton.heightAnchor.constraint(equalToConstant: 50),
-            selectLatestMoviesListButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+            selectLatestMoviesListButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+
         ])
     }
 
     private func setupTableView() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 160).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -156,6 +161,7 @@ final class MainScreenViewController: UIViewController {
                 self.movies = moviesAPI.self
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    self.scrollToTop()
                 }
             case .failure:
                 print(Constants.error)
@@ -163,7 +169,10 @@ final class MainScreenViewController: UIViewController {
         }
     }
 
-    private func obtainExactMovieAction(_ model: Movies) {}
+    private func scrollToTop() {
+        let topRow = IndexPath(row: 0, section: 0)
+        tableView.scrollToRow(at: topRow, at: .top, animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource

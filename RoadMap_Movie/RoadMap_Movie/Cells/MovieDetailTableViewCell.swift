@@ -22,6 +22,10 @@ final class MovieDetailTableViewCell: UITableViewCell {
         static let caveatFont = "Caveat"
         static let description = "Описание"
         static let imdb = "imdb"
+        static let userMark = "Оценка пользователей: "
+        static let hour = " ч. "
+        static let minute = " мин. "
+        static let gradient = "blackGradient"
     }
 
     // MARK: - Private visual elements
@@ -63,10 +67,16 @@ final class MovieDetailTableViewCell: UITableViewCell {
         return image
     }()
 
+    private let posterGradientImageView: UIImageView = {
+        let gradient = UIImageView()
+        gradient.image = UIImage(named: Constants.gradient)
+        gradient.contentMode = .scaleAspectFill
+        return gradient
+    }()
+
     private let posterBackgroundImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        image.alpha = 0.7
         return image
     }()
 
@@ -99,14 +109,6 @@ final class MovieDetailTableViewCell: UITableViewCell {
         return button
     }()
 
-    private var shareButtonItem = UIBarButtonItem()
-
-    // MARK: - Lifecycle
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-
     // MARK: - Initializers
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -121,7 +123,9 @@ final class MovieDetailTableViewCell: UITableViewCell {
         taglineLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         imdbButton.translatesAutoresizingMaskIntoConstraints = false
+        posterGradientImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(posterBackgroundImageView)
+        contentView.addSubview(posterGradientImageView)
         contentView.addSubview(taglineLabel)
         contentView.addSubview(movieTitleLabel)
         contentView.addSubview(posterImageView)
@@ -138,6 +142,28 @@ final class MovieDetailTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
 
+    // MARK: Public methods
+
+    func setupCell(_ movie: Details) {
+        var genres = String()
+        movieTitleLabel.text = movie.title
+        overviewLabel.text = movie.overview
+        guard let imageURL = URL(string: Constants.baseURL + "\(movie.poster ?? "")") else { return }
+        posterImageView.load(url: imageURL)
+        let movieRating = "\(Constants.userMark) \(String(format: Constants.stringFormat, movie.mark))"
+        markLabel.text = movieRating
+        guard let backgroundImageURL = URL(string: UrlRequest.basePosterURL + "\(movie.backdropPath)")
+        else { return }
+        posterBackgroundImageView.load(url: backgroundImageURL)
+        for genre in movie.genres {
+            genres += "\(genre.name) "
+            movieGenreLabel.text = genres.capitalized
+        }
+        aboutMovieLabel.text = "\(movie.runtime / 60) \(Constants.hour)" +
+            " \(movie.runtime % 60) \(Constants.minute)"
+        taglineLabel.text = "\(movie.tagline)"
+    }
+
     // MARK: - Private methods
 
     private func setupConstraints() {
@@ -146,6 +172,10 @@ final class MovieDetailTableViewCell: UITableViewCell {
             posterBackgroundImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             posterBackgroundImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             posterBackgroundImageView.heightAnchor.constraint(equalToConstant: 250),
+
+            posterGradientImageView.bottomAnchor.constraint(equalTo: posterBackgroundImageView.bottomAnchor),
+            posterGradientImageView.centerXAnchor.constraint(equalTo: posterBackgroundImageView.centerXAnchor),
+            posterGradientImageView.leadingAnchor.constraint(equalTo: posterBackgroundImageView.leadingAnchor),
 
             taglineLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             taglineLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
@@ -188,25 +218,5 @@ final class MovieDetailTableViewCell: UITableViewCell {
             overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
             overviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25),
         ])
-    }
-
-    // MARK: Public methods
-
-    func setupCell(_ movie: Details) {
-        var genres = String()
-        movieTitleLabel.text = movie.title
-        overviewLabel.text = movie.overview
-        guard let imageURL = URL(string: Constants.baseURL + "\(movie.poster ?? "")") else { return }
-        posterImageView.load(url: imageURL)
-        let movieRating = "Оценка пользователей: \(String(format: Constants.stringFormat, movie.mark))"
-        markLabel.text = movieRating
-        guard let backgroundImageURL = URL(string: Constants.baseURL + "\(movie.backdropPath)") else { return }
-        posterBackgroundImageView.load(url: backgroundImageURL)
-        for genre in movie.genres {
-            genres += "\(genre.name) "
-            movieGenreLabel.text = genres.capitalized
-        }
-        aboutMovieLabel.text = "\(movie.runtime / 60) ч. \(movie.runtime % 60) мин."
-        taglineLabel.text = "\(movie.tagline)"
     }
 }

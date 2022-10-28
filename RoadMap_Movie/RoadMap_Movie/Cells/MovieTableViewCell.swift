@@ -8,7 +8,6 @@ final class MovieTableViewCell: UITableViewCell {
     // MARK: - Constants
 
     private enum Constants {
-        static let baseURL = "https://image.tmdb.org/t/p/w200"
         static let stringFormat = "%.1f"
 
         enum Colors {
@@ -73,6 +72,32 @@ final class MovieTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
 
+    // MARK: - Public methods
+
+    func setupCell(_ movie: Movies) {
+        movieTitleLabel.text = movie.title
+        overviewLabel.text = movie.overview
+        guard let imageURL = URL(string: UrlRequest.basePosterURL + "\(movie.poster)") else { return }
+        print(imageURL)
+        posterImageView.load(url: imageURL)
+        let movieMark = String(format: Constants.stringFormat, movie.mark)
+        markLabel.text = movieMark
+    }
+
+    func setMarkColor(_ movie: Movies) {
+        let movieRating = movie.mark
+        switch movieRating {
+        case 0.1 ... 5.9:
+            markLabel.backgroundColor = .systemRed
+        case 6 ... 8:
+            markLabel.backgroundColor = .systemOrange
+        case 8.1 ... 10:
+            markLabel.backgroundColor = .systemGreen
+        default:
+            markLabel.backgroundColor = .gray
+        }
+    }
+
     // MARK: - Private methods
 
     private func setupConstraints() {
@@ -100,31 +125,5 @@ final class MovieTableViewCell: UITableViewCell {
             markLabel.heightAnchor.constraint(equalToConstant: 30),
             markLabel.widthAnchor.constraint(equalToConstant: 30),
         ])
-    }
-
-    // MARK: - Public methods
-
-    func setupCell(_ movie: Movies) {
-        movieTitleLabel.text = movie.title
-        overviewLabel.text = movie.overview
-        guard let imageURL = URL(string: Constants.baseURL + "\(movie.poster)") else { return }
-        print(imageURL)
-        posterImageView.load(url: imageURL)
-        let movieMark = String(format: Constants.stringFormat, movie.mark)
-        markLabel.text = movieMark
-    }
-
-    func setMarkColor(_ movie: Movies) {
-        let movieRating = movie.mark
-        switch movieRating {
-        case 0.1 ... 5.9:
-            markLabel.backgroundColor = .systemRed
-        case 6 ... 8:
-            markLabel.backgroundColor = .systemOrange
-        case 8.1 ... 10:
-            markLabel.backgroundColor = .systemGreen
-        default:
-            markLabel.backgroundColor = .gray
-        }
     }
 }

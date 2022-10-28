@@ -9,8 +9,6 @@ final class MovieDetailViewController: UIViewController {
 
     private enum Constants {
         static let detailCell = "detailCell"
-        static let baseURL = "https://api.themoviedb.org/3/movie/"
-        static let apiKey = "?api_key=5cc552e34f7eb492b6f65e0e324d397b&language=ru-RU"
 
         enum Colors {
             static let red = "redMark"
@@ -21,32 +19,36 @@ final class MovieDetailViewController: UIViewController {
         }
     }
 
+    // MARK: - Public properties
+
+    var details: Details?
+    var movieId: Int?
+
     // MARK: - Private properties
 
     private let sessionConfiguration = URLSessionConfiguration.default
     private let decoder = JSONDecoder()
     private let session = URLSession.shared
-    var details: Details?
-    var movieId: Int?
-
-    // MARK: - Private visual elements
-
     private let tableView = UITableView()
 
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        obtainExactMovie()
-        setupTableView()
+        setupUI()
     }
 
     // MARK: - Private methods
 
+    private func setupUI() {
+        obtainExactMovie()
+        setupTableView()
+    }
+
     private func obtainExactMovie() {
         guard let url =
             URL(
-                string: Constants.baseURL + "\(movieId ?? 0)" + Constants.apiKey
+                string: UrlRequest.baseURL + "\(movieId ?? 0)" + UrlRequest.apiKey + UrlRequest.ruLanguage
             ) else { return }
         URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
             guard let data = data else { return }
@@ -77,10 +79,6 @@ final class MovieDetailViewController: UIViewController {
         tableView.register(MovieDetailTableViewCell.self, forCellReuseIdentifier: Constants.detailCell)
     }
 }
-
-// private func hideNavigationBar() {
-//    navigationcontroller
-// }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
 

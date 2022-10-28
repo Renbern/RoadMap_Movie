@@ -1,14 +1,12 @@
 // Movies.swift
 // Copyright © RoadMap. All rights reserved.
 
-import Foundation
-
-/// Модель фильмов
+/// Результаты запроса
 struct Results: Decodable {
     var results: [Movies]
 }
 
-/// Модель
+/// Модель фильмов
 struct Movies: Decodable {
     let id: Int
     let title: String
@@ -37,7 +35,6 @@ struct Details: Decodable {
     let genres: [Genre]
     let adult: Bool
     let releaseDate: String
-    let productionCountries: [Country]
     let tagline: String
     let runtime: Int
 
@@ -52,7 +49,6 @@ struct Details: Decodable {
         case genres
         case adult
         case releaseDate = "release_date"
-        case productionCountries = "production_countries"
         case tagline
         case runtime
     }
@@ -60,10 +56,5 @@ struct Details: Decodable {
 
 /// Модель жанра
 struct Genre: Decodable {
-    let name: String
-}
-
-/// Модель
-struct Country: Decodable {
     let name: String
 }
