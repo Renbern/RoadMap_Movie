@@ -107,40 +107,57 @@ final class MovieTableViewCell: UITableViewCell {
 
     // MARK: - Private methods
 
-    private func setupConstraints() {
-        let constraint = overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
-        constraint.priority = UILayoutPriority(999)
-
-        movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        markLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func setupPosterImageViewConstraints() {
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
-        overviewLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(movieTitleLabel)
         contentView.addSubview(posterImageView)
-        contentView.addSubview(overviewLabel)
-        contentView.addSubview(markLabel)
-
         NSLayoutConstraint.activate([
             posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             posterImageView.heightAnchor.constraint(equalToConstant: 200),
             posterImageView.widthAnchor.constraint(equalToConstant: 150),
-            posterImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            posterImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
+        ])
+    }
 
+    private func setupMovieTitleLabelConstraints() {
+        movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(movieTitleLabel)
+        NSLayoutConstraint.activate([
             movieTitleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 15),
             movieTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             movieTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            movieTitleLabel.heightAnchor.constraint(equalToConstant: 30),
+            movieTitleLabel.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
 
+    private func setupOverviewLabelConstraints() {
+        let constraint = overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
+        constraint.priority = UILayoutPriority(999)
+        overviewLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(overviewLabel)
+        NSLayoutConstraint.activate([
             overviewLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 15),
             overviewLabel.topAnchor.constraint(equalTo: movieTitleLabel.bottomAnchor, constant: 5),
             constraint,
-            overviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            overviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+        ])
+    }
 
+    private func setupMarkLabelConstraints() {
+        markLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(markLabel)
+        NSLayoutConstraint.activate([
             markLabel.topAnchor.constraint(equalTo: movieTitleLabel.bottomAnchor, constant: 5),
             markLabel.leadingAnchor.constraint(equalTo: movieTitleLabel.leadingAnchor, constant: 10),
             markLabel.heightAnchor.constraint(equalToConstant: 30),
             markLabel.widthAnchor.constraint(equalToConstant: 30),
         ])
+    }
+
+    private func setupConstraints() {
+        setupPosterImageViewConstraints()
+        setupMovieTitleLabelConstraints()
+        setupOverviewLabelConstraints()
+        setupMarkLabelConstraints()
     }
 }

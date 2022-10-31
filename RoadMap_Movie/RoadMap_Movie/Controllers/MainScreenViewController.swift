@@ -118,24 +118,37 @@ final class MainScreenViewController: UIViewController {
         setupConstraints()
     }
 
-    private func setupConstraints() {
+    private func setupSelectTopRatedMoviesListButtonConstraints() {
         NSLayoutConstraint.activate([
             selectTopRatedMoviesListButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             selectTopRatedMoviesListButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.33),
             selectTopRatedMoviesListButton.heightAnchor.constraint(equalToConstant: 50),
-            selectTopRatedMoviesListButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            selectTopRatedMoviesListButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        ])
+    }
 
+    private func setupSelectPopularMoviesListButtonConstraints() {
+        NSLayoutConstraint.activate([
             selectPopularMoviesListButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.33),
             selectPopularMoviesListButton.heightAnchor.constraint(equalToConstant: 50),
             selectPopularMoviesListButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            selectPopularMoviesListButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            selectPopularMoviesListButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
 
+    private func setupSelectLatestMoviesListButtonConstraints() {
+        NSLayoutConstraint.activate([
             selectLatestMoviesListButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             selectLatestMoviesListButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.33),
             selectLatestMoviesListButton.heightAnchor.constraint(equalToConstant: 50),
-            selectLatestMoviesListButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-
+            selectLatestMoviesListButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
+    }
+
+    private func setupConstraints() {
+        setupSelectTopRatedMoviesListButtonConstraints()
+        setupSelectPopularMoviesListButtonConstraints()
+        setupSelectLatestMoviesListButtonConstraints()
     }
 
     private func setupTableView() {

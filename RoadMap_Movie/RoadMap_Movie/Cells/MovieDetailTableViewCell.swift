@@ -171,101 +171,133 @@ final class MovieDetailTableViewCell: UITableViewCell {
 
     // MARK: - Private methods
 
-    private func setupConstraints() {
-        movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        markLabel.translatesAutoresizingMaskIntoConstraints = false
-        posterImageView.translatesAutoresizingMaskIntoConstraints = false
-        overviewLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func setupPosterBackgroundImageViewConstraints() {
         posterBackgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        movieGenreLabel.translatesAutoresizingMaskIntoConstraints = false
-        aboutMovieLabel.translatesAutoresizingMaskIntoConstraints = false
-        taglineLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        imdbButton.translatesAutoresizingMaskIntoConstraints = false
-        posterGradientImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(posterBackgroundImageView)
-        contentView.addSubview(posterGradientImageView)
-        contentView.addSubview(taglineLabel)
-        contentView.addSubview(movieTitleLabel)
-        contentView.addSubview(posterImageView)
-        contentView.addSubview(overviewLabel)
-        contentView.addSubview(markLabel)
-        contentView.addSubview(movieGenreLabel)
-        contentView.addSubview(aboutMovieLabel)
-        contentView.addSubview(descriptionLabel)
-        contentView.addSubview(imdbButton)
-        movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        markLabel.translatesAutoresizingMaskIntoConstraints = false
-        posterImageView.translatesAutoresizingMaskIntoConstraints = false
-        overviewLabel.translatesAutoresizingMaskIntoConstraints = false
-        posterBackgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        movieGenreLabel.translatesAutoresizingMaskIntoConstraints = false
-        aboutMovieLabel.translatesAutoresizingMaskIntoConstraints = false
-        taglineLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        imdbButton.translatesAutoresizingMaskIntoConstraints = false
-        posterGradientImageView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(posterBackgroundImageView)
-        contentView.addSubview(posterGradientImageView)
-        contentView.addSubview(taglineLabel)
-        contentView.addSubview(movieTitleLabel)
-        contentView.addSubview(posterImageView)
-        contentView.addSubview(overviewLabel)
-        contentView.addSubview(markLabel)
-        contentView.addSubview(movieGenreLabel)
-        contentView.addSubview(aboutMovieLabel)
-        contentView.addSubview(descriptionLabel)
-        contentView.addSubview(imdbButton)
         NSLayoutConstraint.activate([
             posterBackgroundImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             posterBackgroundImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             posterBackgroundImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            posterBackgroundImageView.heightAnchor.constraint(equalToConstant: 250),
+            posterBackgroundImageView.heightAnchor.constraint(equalToConstant: 250)
+        ])
+    }
 
+    private func setupPosterGradientImageViewConstraints() {
+        posterGradientImageView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(posterGradientImageView)
+        NSLayoutConstraint.activate([
             posterGradientImageView.bottomAnchor.constraint(equalTo: posterBackgroundImageView.bottomAnchor),
             posterGradientImageView.centerXAnchor.constraint(equalTo: posterBackgroundImageView.centerXAnchor),
-            posterGradientImageView.leadingAnchor.constraint(equalTo: posterBackgroundImageView.leadingAnchor),
+            posterGradientImageView.leadingAnchor.constraint(equalTo: posterBackgroundImageView.leadingAnchor)
+        ])
+    }
 
+    private func setupTaglineLabelConstraints() {
+        taglineLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(taglineLabel)
+        NSLayoutConstraint.activate([
             taglineLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             taglineLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             taglineLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 15),
-            taglineLabel.bottomAnchor.constraint(equalTo: posterImageView.topAnchor),
+            taglineLabel.bottomAnchor.constraint(equalTo: posterImageView.topAnchor)
+        ])
+    }
 
+    private func setupMovieTitleLabelConstraints() {
+        movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(movieTitleLabel)
+        NSLayoutConstraint.activate([
+            movieTitleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            movieTitleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 10),
+            movieTitleLabel.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+
+    private func setupPosterImageViewConstraints() {
+        posterImageView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(posterImageView)
+        NSLayoutConstraint.activate([
             posterImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 150),
             posterImageView.heightAnchor.constraint(equalToConstant: 200),
-            posterImageView.widthAnchor.constraint(equalToConstant: 150),
+            posterImageView.widthAnchor.constraint(equalToConstant: 150)
+        ])
+    }
 
-            movieTitleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            movieTitleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 10),
-            movieTitleLabel.heightAnchor.constraint(equalToConstant: 30),
-
-            movieGenreLabel.topAnchor.constraint(equalTo: movieTitleLabel.bottomAnchor, constant: -5),
-            movieGenreLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            movieGenreLabel.heightAnchor.constraint(equalToConstant: 30),
-            movieGenreLabel.widthAnchor.constraint(equalToConstant: 300),
-
-            aboutMovieLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            aboutMovieLabel.topAnchor.constraint(equalTo: movieGenreLabel.bottomAnchor, constant: -5),
-
-            markLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
-            markLabel.topAnchor.constraint(equalTo: aboutMovieLabel.bottomAnchor, constant: 10),
-            markLabel.heightAnchor.constraint(equalToConstant: 30),
-            markLabel.widthAnchor.constraint(equalToConstant: 240),
-
-            imdbButton.centerYAnchor.constraint(equalTo: markLabel.centerYAnchor),
-            imdbButton.leadingAnchor.constraint(equalTo: markLabel.trailingAnchor, constant: 5),
-            imdbButton.heightAnchor.constraint(equalToConstant: 20),
-            imdbButton.widthAnchor.constraint(equalToConstant: 50),
-
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 25),
-            descriptionLabel.topAnchor.constraint(equalTo: imdbButton.bottomAnchor, constant: 25),
-            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25),
-
+    private func setupOverviewLabelConstraints() {
+        overviewLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(overviewLabel)
+        NSLayoutConstraint.activate([
             overviewLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 25),
             overviewLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 25),
             overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
-            overviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25),
+            overviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25)
         ])
+    }
+
+    private func setupMarkLabelConstraints() {
+        markLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(markLabel)
+        NSLayoutConstraint.activate([
+            markLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            markLabel.topAnchor.constraint(equalTo: aboutMovieLabel.bottomAnchor, constant: 10),
+            markLabel.heightAnchor.constraint(equalToConstant: 30),
+            markLabel.widthAnchor.constraint(equalToConstant: 240)
+        ])
+    }
+
+    private func setupMovieGenreLabelConstraints() {
+        movieGenreLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(movieGenreLabel)
+        NSLayoutConstraint.activate([
+            movieGenreLabel.topAnchor.constraint(equalTo: movieTitleLabel.bottomAnchor, constant: -5),
+            movieGenreLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            movieGenreLabel.heightAnchor.constraint(equalToConstant: 30),
+            movieGenreLabel.widthAnchor.constraint(equalToConstant: 300)
+        ])
+    }
+
+    private func setupAboutMovieLabelConstraints() {
+        aboutMovieLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(aboutMovieLabel)
+        NSLayoutConstraint.activate([
+            aboutMovieLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            aboutMovieLabel.topAnchor.constraint(equalTo: movieGenreLabel.bottomAnchor, constant: -5)
+        ])
+    }
+
+    private func setupDescriptionLabelConstraints() {
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(descriptionLabel)
+        NSLayoutConstraint.activate([
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 25),
+            descriptionLabel.topAnchor.constraint(equalTo: imdbButton.bottomAnchor, constant: 25),
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25)
+        ])
+    }
+
+    private func setupImdbButtonConstraints() {
+        imdbButton.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(imdbButton)
+        NSLayoutConstraint.activate([
+            imdbButton.centerYAnchor.constraint(equalTo: markLabel.centerYAnchor),
+            imdbButton.leadingAnchor.constraint(equalTo: markLabel.trailingAnchor, constant: 5),
+            imdbButton.heightAnchor.constraint(equalToConstant: 20),
+            imdbButton.widthAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+
+    private func setupConstraints() {
+        setupPosterBackgroundImageViewConstraints()
+        setupPosterGradientImageViewConstraints()
+        setupTaglineLabelConstraints()
+        setupMovieTitleLabelConstraints()
+        setupPosterImageViewConstraints()
+        setupOverviewLabelConstraints()
+        setupMarkLabelConstraints()
+        setupMovieGenreLabelConstraints()
+        setupAboutMovieLabelConstraints()
+        setupDescriptionLabelConstraints()
+        setupImdbButtonConstraints()
     }
 }
