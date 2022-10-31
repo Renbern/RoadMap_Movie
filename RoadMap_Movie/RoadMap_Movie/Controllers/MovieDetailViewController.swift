@@ -48,17 +48,17 @@ final class MovieDetailViewController: UIViewController {
     private func obtainExactMovie() {
         guard let url =
             URL(
-                string: UrlRequest.baseURL + "\(movieId ?? 0)" + UrlRequest.apiKey + UrlRequest.ruLanguage
+                string: "\(UrlRequest.baseURL) \(movieId ?? 0) \(UrlRequest.apiKey) \(UrlRequest.ruLanguage)"
             ) else { return }
-        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data else { return }
             if let error = error {
                 print(error.localizedDescription)
             }
             do {
-                self?.details = try JSONDecoder().decode(Details.self, from: data)
+                self.details = try JSONDecoder().decode(Details.self, from: data)
                 DispatchQueue.main.async {
-                    self?.tableView.reloadData()
+                    self.tableView.reloadData()
                 }
             } catch {
                 print(error)
@@ -89,9 +89,11 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView
-            .dequeueReusableCell(withIdentifier: Constants.detailCell, for: indexPath) as? MovieDetailTableViewCell
-        else { return UITableViewCell() }
-        guard let movie = details else { return UITableViewCell() }
+            .dequeueReusableCell(withIdentifier: Constants.detailCell, for: indexPath) as? MovieDetailTableViewCell,
+            let movie = details
+        else {
+            return UITableViewCell()
+        }
         cell.setupCell(movie)
         return cell
     }

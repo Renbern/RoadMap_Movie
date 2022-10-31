@@ -5,13 +5,13 @@ import UIKit
 
 /// Стартовый экран приложения
 final class MainScreenViewController: UIViewController {
-    // MARK: - Constans
+    // MARK: - Constants
 
     private enum Constants {
         enum MovieSections {
-            static let topRated = "Высокий рейтинг"
-            static let popular = "Популярное"
-            static let actual = "Скоро"
+            static let topRatedText = "Высокий рейтинг"
+            static let popularText = "Популярное"
+            static let actualText = "Скоро"
         }
 
         enum Colors {
@@ -27,15 +27,15 @@ final class MainScreenViewController: UIViewController {
         static let error = "error"
         static let screenTitle = "Movie"
         static let detailScreenTitle = "Details"
-        static let ruLanguageImage = "ru"
-        static let enLanguageImage = "en"
+        static let ruLanguage = "ru"
+        static let enLanguage = "en"
     }
 
     // MARK: - Private visual elements
 
     private lazy var selectTopRatedMoviesListButton: UIButton = {
         let button = UIButton()
-        button.setTitle(Constants.MovieSections.topRated, for: .normal)
+        button.setTitle(Constants.MovieSections.topRatedText, for: .normal)
         button.tag = 0
         button.titleLabel?.font = .systemFont(ofSize: 12, weight: .semibold)
         button.backgroundColor = UIColor(named: Constants.Colors.blue)
@@ -45,7 +45,7 @@ final class MainScreenViewController: UIViewController {
 
     private lazy var selectPopularMoviesListButton: UIButton = {
         let button = UIButton()
-        button.setTitle(Constants.MovieSections.popular, for: .normal)
+        button.setTitle(Constants.MovieSections.popularText, for: .normal)
         button.tag = 1
         button.titleLabel?.font = .systemFont(ofSize: 12, weight: .semibold)
         button.backgroundColor = UIColor(named: Constants.Colors.blue)
@@ -55,7 +55,7 @@ final class MainScreenViewController: UIViewController {
 
     private lazy var selectLatestMoviesListButton: UIButton = {
         let button = UIButton()
-        button.setTitle(Constants.MovieSections.actual, for: .normal)
+        button.setTitle(Constants.MovieSections.actualText, for: .normal)
         button.tag = 2
         button.titleLabel?.font = .systemFont(ofSize: 12, weight: .semibold)
         button.backgroundColor = UIColor(named: Constants.Colors.blue)
@@ -85,18 +85,18 @@ final class MainScreenViewController: UIViewController {
         switch sender.tag {
         case 0:
             obtainMovies(
-                sectionUrl: UrlRequest.baseURL + UrlRequest.topRated + UrlRequest.apiKey + UrlRequest
-                    .ruLanguage
+                sectionUrl:
+                "\(UrlRequest.baseURL) \(UrlRequest.topRated) \(UrlRequest.apiKey) \(UrlRequest.ruLanguage)"
             )
         case 1:
             obtainMovies(
-                sectionUrl: UrlRequest.baseURL + UrlRequest.popularURL + UrlRequest.apiKey + UrlRequest
-                    .ruLanguage
+                sectionUrl:
+                "\(UrlRequest.baseURL) \(UrlRequest.popularURL) \(UrlRequest.apiKey) \(UrlRequest.ruLanguage)"
             )
         case 2:
             obtainMovies(
-                sectionUrl: UrlRequest.baseURL + UrlRequest.actualURL + UrlRequest.apiKey + UrlRequest
-                    .ruLanguage
+                sectionUrl:
+                "\(UrlRequest.baseURL) \(UrlRequest.actualURL) \(UrlRequest.apiKey) \(UrlRequest.ruLanguage)"
             )
         default:
             return
@@ -179,21 +179,23 @@ final class MainScreenViewController: UIViewController {
 
 extension MainScreenViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        movies?.results.count ?? 0
+        movies?.movies.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView
-            .dequeueReusableCell(withIdentifier: Constants.movieCell, for: indexPath) as? MovieTableViewCell
-        else { return UITableViewCell() }
-        guard let movie = movies?.results[indexPath.row] else { return UITableViewCell() }
+            .dequeueReusableCell(withIdentifier: Constants.movieCell, for: indexPath) as? MovieTableViewCell,
+            let movie = movies?.movies[indexPath.row]
+        else {
+            return UITableViewCell()
+        }
         cell.setupCell(movie)
         cell.setMarkColor(movie)
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movieId = movies?.results[indexPath.row].id
+        let movieId = movies?.movies[indexPath.row].id
         let detailsViewController = MovieDetailViewController()
         detailsViewController.movieId = movieId
         navigationController?.pushViewController(detailsViewController, animated: true)

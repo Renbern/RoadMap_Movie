@@ -3,10 +3,6 @@
 
 import UIKit
 
-// protocol ShareDelegate: AnyObject {
-//    func showShareActivityController()
-// }
-
 /// Ячейка деталей о фильме
 final class MovieDetailTableViewCell: UITableViewCell {
     // MARK: - Constants
@@ -113,6 +109,70 @@ final class MovieDetailTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupConstraints()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    // MARK: Public methods
+
+    func setupGenre(_ movie: Details) {
+        var genres = String()
+        for genre in movie.genres {
+            genres += "\(genre.name) "
+            movieGenreLabel.text = genres.capitalized
+        }
+    }
+
+    func setupMovieTitle(_ movie: Details) {
+        movieTitleLabel.text = movie.title
+    }
+
+    func setupOverview(_ movie: Details) {
+        overviewLabel.text = movie.overview
+    }
+
+    func setupImage(_ movie: Details) {
+        guard let imageURL = URL(string: Constants.baseURL + "\(movie.poster ?? "")") else { return }
+        posterImageView.load(url: imageURL)
+    }
+
+    func setupMovieRating(_ movie: Details) {
+        let movieRating = "\(Constants.userMark) \(String(format: Constants.stringFormat, movie.mark))"
+        markLabel.text = movieRating
+    }
+
+    func setupBackgroundImage(_ movie: Details) {
+        guard let backgroundImageURL = URL(string: UrlRequest.basePosterURL + "\(movie.backdropPath)")
+        else { return }
+        posterBackgroundImageView.load(url: backgroundImageURL)
+    }
+
+    func setupAboutMovie(_ movie: Details) {
+        aboutMovieLabel.text = "\(movie.runtime / 60) \(Constants.hour)" +
+            " \(movie.runtime % 60) \(Constants.minute)"
+    }
+
+    func setupTagline(_ movie: Details) {
+        taglineLabel.text = "\(movie.tagline)"
+    }
+
+    func setupCell(_ movie: Details) {
+        setupOverview(movie)
+        setupMovieTitle(movie)
+        setupMovieTitle(movie)
+        setupImage(movie)
+        setupMovieRating(movie)
+        setupBackgroundImage(movie)
+        setupAboutMovie(movie)
+        setupTagline(movie)
+    }
+
+    // MARK: - Private methods
+
+    private func setupConstraints() {
         movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         markLabel.translatesAutoresizingMaskIntoConstraints = false
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -135,38 +195,28 @@ final class MovieDetailTableViewCell: UITableViewCell {
         contentView.addSubview(aboutMovieLabel)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(imdbButton)
-        setupConstraints()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-
-    // MARK: Public methods
-
-    func setupCell(_ movie: Details) {
-        var genres = String()
-        movieTitleLabel.text = movie.title
-        overviewLabel.text = movie.overview
-        guard let imageURL = URL(string: Constants.baseURL + "\(movie.poster ?? "")") else { return }
-        posterImageView.load(url: imageURL)
-        let movieRating = "\(Constants.userMark) \(String(format: Constants.stringFormat, movie.mark))"
-        markLabel.text = movieRating
-        guard let backgroundImageURL = URL(string: UrlRequest.basePosterURL + "\(movie.backdropPath)")
-        else { return }
-        posterBackgroundImageView.load(url: backgroundImageURL)
-        for genre in movie.genres {
-            genres += "\(genre.name) "
-            movieGenreLabel.text = genres.capitalized
-        }
-        aboutMovieLabel.text = "\(movie.runtime / 60) \(Constants.hour)" +
-            " \(movie.runtime % 60) \(Constants.minute)"
-        taglineLabel.text = "\(movie.tagline)"
-    }
-
-    // MARK: - Private methods
-
-    private func setupConstraints() {
+        movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        markLabel.translatesAutoresizingMaskIntoConstraints = false
+        posterImageView.translatesAutoresizingMaskIntoConstraints = false
+        overviewLabel.translatesAutoresizingMaskIntoConstraints = false
+        posterBackgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+        movieGenreLabel.translatesAutoresizingMaskIntoConstraints = false
+        aboutMovieLabel.translatesAutoresizingMaskIntoConstraints = false
+        taglineLabel.translatesAutoresizingMaskIntoConstraints = false
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        imdbButton.translatesAutoresizingMaskIntoConstraints = false
+        posterGradientImageView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(posterBackgroundImageView)
+        contentView.addSubview(posterGradientImageView)
+        contentView.addSubview(taglineLabel)
+        contentView.addSubview(movieTitleLabel)
+        contentView.addSubview(posterImageView)
+        contentView.addSubview(overviewLabel)
+        contentView.addSubview(markLabel)
+        contentView.addSubview(movieGenreLabel)
+        contentView.addSubview(aboutMovieLabel)
+        contentView.addSubview(descriptionLabel)
+        contentView.addSubview(imdbButton)
         NSLayoutConstraint.activate([
             posterBackgroundImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             posterBackgroundImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

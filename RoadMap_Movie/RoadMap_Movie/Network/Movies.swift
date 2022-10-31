@@ -3,7 +3,7 @@
 
 /// Результаты запроса
 struct Results: Decodable {
-    var results: [Movies]
+    var movies: [Movies]
 }
 
 /// Модель фильмов

@@ -57,14 +57,6 @@ final class MovieTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        markLabel.translatesAutoresizingMaskIntoConstraints = false
-        posterImageView.translatesAutoresizingMaskIntoConstraints = false
-        overviewLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(movieTitleLabel)
-        contentView.addSubview(posterImageView)
-        contentView.addSubview(overviewLabel)
-        contentView.addSubview(markLabel)
         setupConstraints()
     }
 
@@ -74,14 +66,29 @@ final class MovieTableViewCell: UITableViewCell {
 
     // MARK: - Public methods
 
-    func setupCell(_ movie: Movies) {
+    func setupMovieTitle(_ movie: Movies) {
         movieTitleLabel.text = movie.title
+    }
+
+    func setupOverview(_ movie: Movies) {
         overviewLabel.text = movie.overview
-        guard let imageURL = URL(string: UrlRequest.basePosterURL + "\(movie.poster)") else { return }
-        print(imageURL)
+    }
+
+    func setupImage(_ movie: Movies) {
+        guard let imageURL = URL(string: "\(UrlRequest.basePosterURL) \(movie.poster)") else { return }
         posterImageView.load(url: imageURL)
+    }
+
+    func setupMovieMark(_ movie: Movies) {
         let movieMark = String(format: Constants.stringFormat, movie.mark)
         markLabel.text = movieMark
+    }
+
+    func setupCell(_ movie: Movies) {
+        setupMovieTitle(movie)
+        setupOverview(movie)
+        setupImage(movie)
+        setupMovieMark(movie)
     }
 
     func setMarkColor(_ movie: Movies) {
@@ -103,6 +110,16 @@ final class MovieTableViewCell: UITableViewCell {
     private func setupConstraints() {
         let constraint = overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
         constraint.priority = UILayoutPriority(999)
+
+        movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        markLabel.translatesAutoresizingMaskIntoConstraints = false
+        posterImageView.translatesAutoresizingMaskIntoConstraints = false
+        overviewLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(movieTitleLabel)
+        contentView.addSubview(posterImageView)
+        contentView.addSubview(overviewLabel)
+        contentView.addSubview(markLabel)
+
         NSLayoutConstraint.activate([
             posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),

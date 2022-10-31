@@ -3,6 +3,7 @@
 
 import Foundation
 
+/// Метод для получения данных
 extension URLSession {
     func fetchData(at url: URL, completion: @escaping (Result<Results, Error>) -> Void) {
         dataTask(with: url) { data, _, error in
