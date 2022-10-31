@@ -135,7 +135,7 @@ final class MovieDetailTableViewCell: UITableViewCell {
     }
 
     func setupImage(_ movie: Details) {
-        guard let imageURL = URL(string: Constants.baseURL + "\(movie.poster ?? "")") else { return }
+        guard let imageURL = URL(string: "\(Constants.baseURL) \(movie.poster ?? "")") else { return }
         posterImageView.load(url: imageURL)
     }
 
@@ -145,14 +145,13 @@ final class MovieDetailTableViewCell: UITableViewCell {
     }
 
     func setupBackgroundImage(_ movie: Details) {
-        guard let backgroundImageURL = URL(string: UrlRequest.basePosterURL + "\(movie.backdropPath)")
+        guard let backgroundImageURL = URL(string: "\(UrlRequest.basePosterURL) \(movie.backdropPath)")
         else { return }
         posterBackgroundImageView.load(url: backgroundImageURL)
     }
 
     func setupAboutMovie(_ movie: Details) {
-        aboutMovieLabel.text = "\(movie.runtime / 60) \(Constants.hour)" +
-            " \(movie.runtime % 60) \(Constants.minute)"
+        aboutMovieLabel.text = "\(movie.runtime / 60) \(Constants.hour) \(movie.runtime % 60) \(Constants.minute)"
     }
 
     func setupTagline(_ movie: Details) {
